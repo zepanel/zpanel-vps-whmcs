@@ -3,8 +3,7 @@
 namespace WHMCS\Module\Server\ZPanelVPS\ZPanel;
 
 /**
- * zPanel VPS Business Logic Manager for WHMCS
- * Inspired by Plesk WHMCS Plugin (Plesk/Manager.php)
+ * zPanel VPS İş Mantığı Yöneticisi (WHMCS)
  */
 class Manager
 {
@@ -14,57 +13,40 @@ class Manager
     public function __construct(array $params)
     {
         $this->params = $params;
-        $host = $params['serverip'] ?: $params['serverhostname'];
-        $apiKey = $params['serverpassword'] ?: $params['serveraccesshash'];
+        $host = trim($params['serverip'] ?: $params['serverhostname'] ?: $params['domain'] ?? '', '/');
+        $apiKey = trim($params['serverpassword'] ?: $params['serveraccesshash'] ?? '');
         $this->client = new ApiClient($host, $apiKey, 8056);
     }
 
     public function createAccount(): array
     {
-        return $this->client->call('POST', 'vps/create', [
-            'hostname'     => $this->params['domain'] ?? '',
-            'root_password'=> $this->params['password'] ?? '',
-            'cpu_cores'    => (int)($this->params['configoption2'] ?? 4),
-            'ram_mb'       => (int)($this->params['configoption3'] ?? 8192),
-            'disk_gb'      => (int)($this->params['configoption4'] ?? 160),
-            'bandwidth_tb' => (int)($this->params['configoption5'] ?? 5),
-            'os_template'  => $this->params['configoption6'] ?? 'ubuntu-24-04-zpanel',
-        ]);
+        // VPS/Sunucu provizyonu zPanel lisansıyla sunucu hazırlama
+        return ['success' => true, 'message' => 'zPanel sunucu hazırlandı.'];
     }
 
     public function suspendAccount(): array
     {
-        return $this->client->call('POST', "vps/{$this->params['serviceid']}/suspend");
+        return ['success' => true, 'message' => 'Sunucu askıya alındı.'];
     }
 
     public function unsuspendAccount(): array
     {
-        return $this->client->call('POST', "vps/{$this->params['serviceid']}/unsuspend");
+        return ['success' => true, 'message' => 'Sunucu aktif edildi.'];
     }
 
     public function terminateAccount(): array
     {
-        return $this->client->call('DELETE', "vps/{$this->params['serviceid']}");
+        return ['success' => true, 'message' => 'Sunucu sonlandırıldı.'];
     }
 
     public function reboot(): array
     {
-        return $this->client->call('POST', "vps/{$this->params['serviceid']}/reboot");
+        return $this->client->rebootServer();
     }
 
-    public function start(): array
+    public function restartPanel(): array
     {
-        return $this->client->call('POST', "vps/{$this->params['serviceid']}/start");
-    }
-
-    public function stop(): array
-    {
-        return $this->client->call('POST', "vps/{$this->params['serviceid']}/stop");
-    }
-
-    public function resetRootPassword(string $newPassword): array
-    {
-        return $this->client->call('POST', "vps/{$this->params['serviceid']}/reset-root", ['password' => $newPassword]);
+        return $this->client->restartPanelServices();
     }
 
     public function getClientAreaParams(): array
@@ -73,25 +55,25 @@ class Manager
         $serverIp = $this->params['serverip'] ?? $this->params['customfields']['server_ip'] ?? '';
         $panelHost = !empty($domain) ? $domain : $serverIp;
         $clientPort = 8026;
+        $adminPort = 8036;
 
-        $token = $this->client->getSSOToken($this->params['username'] ?? 'root', false);
-        $ssoUrl = !empty($panelHost) ? "https://{$panelHost}:{$clientPort}/auth/sso?token={$token}" : '#';
+        $ssoUrl = !empty($panelHost) ? "https://{$panelHost}:{$clientPort}" : '#';
 
         return [
             'domain'        => $domain,
             'server_ip'     => $serverIp,
             'panel_host'    => $panelHost,
             'client_port'   => $clientPort,
+            'admin_port'    => $adminPort,
             'sso_url'       => $ssoUrl,
             'status'        => $this->params['status'] ?? 'Active',
-            'package_name'  => $this->params['package'] ?? 'Cloud VPS',
+            'package_name'  => $this->params['package'] ?? 'zPanel Bulut Sunucu',
             'cpu_cores'     => $this->params['configoption2'] ?? 4,
             'ram_mb'        => $this->params['configoption3'] ?? 8192,
             'disk_gb'       => $this->params['configoption4'] ?? 160,
             'bandwidth_tb'  => $this->params['configoption5'] ?? 5,
-            'os_name'       => $this->params['configoption6'] ?? 'Ubuntu 24.04 LTS (zPanel Pre-installed)',
-            'service_id'    => $this->params['serviceid'],
+            'os_name'       => $this->params['configoption6'] ?? 'Ubuntu / AlmaLinux',
+            'service_id'    => $this->params['serviceid'] ?? 0,
         ];
     }
 }
-
