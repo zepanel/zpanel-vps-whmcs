@@ -1,4 +1,4 @@
-﻿# zPanel VPS & Cloud Server Module for WHMCS
+# zPanel VPS & Cloud Server Module for WHMCS
 
 zPanel VPS ve Bulut Sunucu yönetim modülü. OpenLiteSpeed tabanlı yeni nesil kontrol paneli ile tam entegrasyon.
 
