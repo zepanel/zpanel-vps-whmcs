@@ -27,16 +27,19 @@ function zpanel_vps_MetaData() {
         'DefaultSSLPort' => '8056',
         'ServiceSingleSignOnLabel' => 'zPanel Paneline Giriş Yap (:8026)',
         'AdminSingleSignOnLabel' => 'zPanel Root Girişi (:8036)',
+        'MetricBilling' => true,
     ];
 }
 
 function zpanel_vps_ConfigOptions() {
     return [
         'vps_plan' => [
-            'FriendlyName' => 'zPanel Donanım Paketi',
+            'FriendlyName' => 'zPanel VPS Donanım Paketi',
             'Type' => 'text',
             'Size' => '25',
             'Default' => 'Cloud-NVMe-VPS',
+            'Description' => 'zPanel sunucu donanım şablonu adı',
+            'SimpleMode' => true,
         ],
         'cpu_cores' => [
             'FriendlyName' => 'vCPU Çekirdek Sayısı',
@@ -69,6 +72,11 @@ function zpanel_vps_ConfigOptions() {
             'Default' => 'Ubuntu 24.04 LTS',
         ],
     ];
+}
+
+function zpanel_vps_MetricProvider(array $params) {
+    require_once __DIR__ . '/lib/ZPanel/MetricsProvider.php';
+    return new \WHMCS\Module\Server\ZPanelVPS\ZPanel\MetricsProvider($params);
 }
 
 function zpanel_vps_TestConnection(array $params) {
