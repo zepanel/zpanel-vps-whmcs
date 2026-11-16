@@ -26,6 +26,7 @@ function zpanel_vps_MetaData() {
         'DefaultNonSSLPort' => '8056',
         'DefaultSSLPort' => '8056',
         'ServiceSingleSignOnLabel' => 'zPanel Paneline Giriş Yap (:8026)',
+        'AdminSingleSignOnLabel' => 'zPanel Root Girişi (:8036)',
     ];
 }
 
@@ -141,6 +142,77 @@ function zpanel_vps_restart_panel(array $params) {
         $mgr = new Manager($params);
         $res = $mgr->restartPanel();
         return $res['success'] ? 'success' : ($res['error'] ?: 'Panel servisleri yeniden başlatılamadı');
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+}
+
+function zpanel_vps_AdminLink(array $params) {
+    $host = $params['serverip'] ?: ($params['serverhostname'] ?? '127.0.0.1');
+    $port = 8036;
+    $url = "https://{$host}:{$port}";
+    return sprintf(
+        '<a href="%s" target="_blank" class="btn btn-default btn-sm" style="display:inline-flex;align-items:center;gap:5px;">' .
+        '<i class="fas fa-server"></i> zPanel Root Paneline Giriş Yap (:8036)' .
+        '</a>',
+        htmlspecialchars($url, ENT_QUOTES, 'UTF-8')
+    );
+}
+
+function zpanel_vps_AdminServicesTabFields(array $params) {
+    $serverIp = $params['serverip'] ?? '-';
+    $cpu = $params['configoption2'] ?? '4';
+    $ram = $params['configoption3'] ?? '8192';
+    $disk = $params['configoption4'] ?? '160';
+
+    return [
+        'Sunucu Durumu' => '<span class="label label-success">Çevrimiçi / Online</span>',
+        'Tahsis Edilen Kaynaklar' => sprintf('<strong>%s vCPU</strong> &bull; <strong>%d MB RAM</strong> &bull; <strong>%d GB NVMe</strong>', htmlspecialchars($cpu), (int)$ram, (int)$disk),
+        'Yönetici Portu' => '<strong style="font-family:monospace;">8036 / HTTPS</strong>',
+        'Müşteri Portu' => '<strong style="font-family:monospace;">8026 / HTTPS</strong>',
+        'Doğrudan Giriş' => '<a href="https://' . htmlspecialchars($serverIp, ENT_QUOTES, 'UTF-8') . ':8036" target="_blank" class="btn btn-xs btn-primary"><i class="fas fa-external-link-alt"></i> Root Konsolu</a>',
+    ];
+}
+
+function zpanel_vps_ServiceSingleSignOn(array $params) {
+    $serverIp = $params['serverip'] ?: ($params['serverhostname'] ?? '127.0.0.1');
+    return [
+        'success' => true,
+        'redirectTo' => "https://{$serverIp}:8026/sso?user=" . urlencode($params['username'] ?? ''),
+    ];
+}
+
+function zpanel_vps_AdminSingleSignOn(array $params) {
+    $serverIp = $params['serverip'] ?: ($params['serverhostname'] ?? '127.0.0.1');
+    return [
+        'success' => true,
+        'redirectTo' => "https://{$serverIp}:8036/admin/sso",
+    ];
+}
+
+function zpanel_vps_UsageUpdate(array $params) {
+    if (!class_exists('WHMCS\Database\Capsule')) {
+        return 'success';
+    }
+
+    try {
+        $serverId = (int)($params['serverid'] ?? 0);
+        $services = \WHMCS\Database\Capsule::table('tblhosting')
+            ->where('server', $serverId)
+            ->whereIn('domainstatus', ['Active', 'Suspended'])
+            ->get();
+
+        foreach ($services as $service) {
+            \WHMCS\Database\Capsule::table('tblhosting')
+                ->where('id', $service->id)
+                ->update([
+                    'disklimit'  => (float)($params['configoption4'] ?? 160) * 1024,
+                    'bwlimit'    => (float)($params['configoption5'] ?? 5) * 1024 * 1024,
+                    'lastupdate' => date('Y-m-d H:i:s'),
+                ]);
+        }
+
+        return 'success';
     } catch (\Exception $e) {
         return $e->getMessage();
     }
