@@ -94,6 +94,30 @@ class ApiClient
         return $this->call('POST', 'system/reboot');
     }
 
+    public function startServer(): array
+    {
+        return $this->call('POST', 'system/start');
+    }
+
+    public function stopServer(): array
+    {
+        return $this->call('POST', 'system/stop');
+    }
+
+    public function resetRootPassword(?string $newPassword = null): array
+    {
+        $payload = [];
+        if (!empty($newPassword)) {
+            $payload['password'] = $newPassword;
+        }
+        return $this->call('POST', 'system/reset-root-password', $payload);
+    }
+
+    public function reinstallOS(string $osTemplate): array
+    {
+        return $this->call('POST', 'system/reinstall', ['template' => $osTemplate]);
+    }
+
     public function restartPanelServices(): array
     {
         return $this->call('POST', 'system/restart-panel');
@@ -102,5 +126,10 @@ class ApiClient
     public function getServerLoad(): array
     {
         return $this->call('GET', 'system/load');
+    }
+
+    public function getSystemStatus(): array
+    {
+        return $this->call('GET', 'system/status');
     }
 }

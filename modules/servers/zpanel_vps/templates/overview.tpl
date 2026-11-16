@@ -73,22 +73,40 @@
       </div>
     </div>
 
-    <!-- Gerçek Sunucu Eylemleri Butonları -->
+    <!-- Gerçek Sunucu Eylemleri Butonları (SolusIO / Hetzner Standardı) -->
     <div class="zp-card">
       <h3 class="zp-card-title">Hızlı Sunucu Eylemleri</h3>
       
       <div class="zp-actions-group">
-        <button type="button" onclick="submitVpsAction('reboot', 'Sunucuyu yeniden başlatmak istediğinize emin misiniz?')" class="zp-btn-danger-outline">
-          <span>&#x21bb;</span> Sunucuyu Yeniden Başlat
+        <button type="button" onclick="submitVpsAction('start', 'Sunucuyu başlatmak (Power On) istediğinize emin misiniz?')" class="zp-btn-success-outline">
+          <span>&#x25B6;</span> Sunucuyu Başlat
+        </button>
+
+        <button type="button" onclick="submitVpsAction('stop', 'Sunucuyu kapatmak (Power Off) istediğinize emin misiniz?')" class="zp-btn-danger-outline">
+          <span>&#x23F9;</span> Sunucuyu Kapat
+        </button>
+
+        <button type="button" onclick="submitVpsAction('reboot', 'Sunucuyu yeniden başlatmak istediğinize emin misiniz?')" class="zp-btn-warning-outline">
+          <span>&#x21bb;</span> Yeniden Başlat
         </button>
 
         <button type="button" onclick="submitVpsAction('restart_panel', 'zPanel servislerini yeniden başlatmak istediğinize emin misiniz?')" class="zp-btn-secondary-outline">
-          <span>&#x2699;</span> zPanel Servislerini Yeniden Başlat
+          <span>&#x2699;</span> Servisleri Yeniden Başlat
+        </button>
+
+        <button type="button" onclick="submitVpsAction('reset_root_password', 'Root şifresini sıfırlamak istediğinize emin misiniz? Yeni şifreniz e-posta ile iletilecektir.')" class="zp-btn-neutral-outline">
+          <span>&#x1F511;</span> Root Şifresi Sıfırla
         </button>
 
         <a href="https://{$panel_host|default:$server_ip}:8046" target="_blank" class="zp-btn-neutral-outline">
-          <span>&#x2709;</span> Webmail Giriş (:8046)
+          <span>&#x2709;</span> Webmail (:8046)
         </a>
+
+        {if $vnc_url ne '#'}
+        <a href="{$vnc_url}" target="_blank" class="zp-btn-secondary-outline">
+          <span>&#x1F5B5;</span> Acil Durum Web Konsolu
+        </a>
+        {/if}
       </div>
     </div>
   </div>

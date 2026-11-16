@@ -123,16 +123,45 @@ function zpanel_vps_ChangePackage(array $params) {
 
 function zpanel_vps_AdminCustomButtonArray() {
     return [
-        "Sunucuyu Yeniden Başlat" => "reboot",
+        "Sunucuyu Başlat (Power On)" => "start",
+        "Sunucuyu Kapat (Power Off)" => "stop",
+        "Sunucuyu Yeniden Başlat (Reboot)" => "reboot",
         "Panel Servislerini Yeniden Başlat" => "restart_panel",
+        "Root Şifresini Sıfırla" => "reset_root_password",
+        "İşletim Sistemini Sıfırla" => "reinstall",
+        "Acil Durum Web Konsolu (VNC)" => "vnc",
     ];
 }
 
 function zpanel_vps_ClientAreaCustomButtonArray() {
     return [
+        "Sunucuyu Başlat" => "start",
+        "Sunucuyu Kapat" => "stop",
         "Sunucuyu Yeniden Başlat" => "reboot",
         "Panel Servislerini Yeniden Başlat" => "restart_panel",
+        "Root Şifresini Sıfırla" => "reset_root_password",
+        "Acil Durum Web Konsolu" => "vnc",
     ];
+}
+
+function zpanel_vps_start(array $params) {
+    try {
+        $mgr = new Manager($params);
+        $res = $mgr->start();
+        return $res['success'] ? 'success' : ($res['error'] ?: 'Sunucu başlatılamadı');
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+}
+
+function zpanel_vps_stop(array $params) {
+    try {
+        $mgr = new Manager($params);
+        $res = $mgr->stop();
+        return $res['success'] ? 'success' : ($res['error'] ?: 'Sunucu kapatılamadı');
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
 }
 
 function zpanel_vps_reboot(array $params) {
@@ -150,6 +179,28 @@ function zpanel_vps_restart_panel(array $params) {
         $mgr = new Manager($params);
         $res = $mgr->restartPanel();
         return $res['success'] ? 'success' : ($res['error'] ?: 'Panel servisleri yeniden başlatılamadı');
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+}
+
+function zpanel_vps_reset_root_password(array $params) {
+    try {
+        $newPass = $_POST['new_root_password'] ?? null;
+        $mgr = new Manager($params);
+        $res = $mgr->resetRootPassword($newPass);
+        return $res['success'] ? 'success' : ($res['error'] ?: 'Root şifresi sıfırlanamadı');
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+}
+
+function zpanel_vps_reinstall(array $params) {
+    try {
+        $template = $_POST['os_template'] ?? ($params['configoption6'] ?? 'Ubuntu 24.04 LTS');
+        $mgr = new Manager($params);
+        $res = $mgr->reinstall($template);
+        return $res['success'] ? 'success' : ($res['error'] ?: 'Yeniden kurulum başlatılamadı');
     } catch (\Exception $e) {
         return $e->getMessage();
     }
@@ -224,6 +275,21 @@ function zpanel_vps_UsageUpdate(array $params) {
     } catch (\Exception $e) {
         return $e->getMessage();
     }
+}
+
+function zpanel_vps_vnc(array $params) {
+    try {
+        $serverIp = $params['serverip'] ?: ($params['serverhostname'] ?? '127.0.0.1');
+        $vncUrl = "https://{$serverIp}:8036/console";
+        header("Location: {$vncUrl}");
+        exit;
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+}
+
+function zpanel_vps_AdminServicesTabFieldsSave(array $params) {
+    return 'success';
 }
 
 function zpanel_vps_ClientArea(array $params) {
