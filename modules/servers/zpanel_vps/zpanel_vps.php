@@ -160,7 +160,7 @@ function zpanel_vps_AdminLink(array $params) {
     $port = 8036;
     $url = "https://{$host}:{$port}";
     return sprintf(
-        '<a href="%s" target="_blank" class="btn btn-default btn-sm" style="display:inline-flex;align-items:center;gap:5px;">' .
+        '<a href="%s" target="_blank" class="btn btn-default btn-sm">' .
         '<i class="fas fa-server"></i> zPanel Root Paneline Giriş Yap (:8036)' .
         '</a>',
         htmlspecialchars($url, ENT_QUOTES, 'UTF-8')
@@ -176,8 +176,8 @@ function zpanel_vps_AdminServicesTabFields(array $params) {
     return [
         'Sunucu Durumu' => '<span class="label label-success">Çevrimiçi / Online</span>',
         'Tahsis Edilen Kaynaklar' => sprintf('<strong>%s vCPU</strong> &bull; <strong>%d MB RAM</strong> &bull; <strong>%d GB NVMe</strong>', htmlspecialchars($cpu), (int)$ram, (int)$disk),
-        'Yönetici Portu' => '<strong style="font-family:monospace;">8036 / HTTPS</strong>',
-        'Müşteri Portu' => '<strong style="font-family:monospace;">8026 / HTTPS</strong>',
+        'Yönetici Portu' => '<code>8036 / HTTPS</code>',
+        'Müşteri Portu' => '<code>8026 / HTTPS</code>',
         'Doğrudan Giriş' => '<a href="https://' . htmlspecialchars($serverIp, ENT_QUOTES, 'UTF-8') . ':8036" target="_blank" class="btn btn-xs btn-primary"><i class="fas fa-external-link-alt"></i> Root Konsolu</a>',
     ];
 }

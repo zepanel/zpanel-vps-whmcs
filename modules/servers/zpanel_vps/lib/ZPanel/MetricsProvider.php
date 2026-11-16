@@ -78,3 +78,4 @@ class MetricsProvider
         return [];
     }
 }
+

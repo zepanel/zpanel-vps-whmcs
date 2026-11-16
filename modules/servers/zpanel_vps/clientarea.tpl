@@ -133,7 +133,7 @@
   </div>
 
   <!-- WHMCS Modül Eylem Formu (Gizli POST) -->
-  <form id="zp-vps-action-form" method="post" action="clientarea.php?action=productdetails&id={$service_id}" style="display: none;">
+  <form id="zp-vps-action-form" method="post" action="clientarea.php?action=productdetails&id={$service_id}" class="zp-hidden">
     <input type="hidden" name="token" value="{$csrfToken}">
     <input type="hidden" name="modop" value="custom">
     <input type="hidden" name="a" id="zp-vps-action-input" value="">
