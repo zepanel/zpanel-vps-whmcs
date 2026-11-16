@@ -1,239 +1,319 @@
-/* zPanel VPS - WHMCS Client Area Stylesheet */
+/* zPanel Dedicated & VPS Sunucu WHMCS Stylesheet */
+
 .zp-vps-wrap {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #1e293b;
-  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #0f172a;
+  max-width: 1040px;
+  margin: 0 auto;
 }
 
 .zp-vps-header {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 20px 24px;
+  padding: 22px 26px;
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.zp-vps-title h2 {
+.zp-vps-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.zp-vps-title {
   font-size: 20px;
   font-weight: 700;
-  margin: 0 0 6px 0;
+  margin: 0;
   color: #0f172a;
 }
 
+.zp-badge-ver {
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
 .zp-vps-meta {
-  font-size: 13px;
+  font-size: 13.5px;
   color: #64748b;
+}
+
+.zp-code-val {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.zp-strong-val {
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .zp-badge-active {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.zp-badge-other {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.zp-header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.zp-btn-primary {
+  background: #2563eb;
+  color: #ffffff !important;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none !important;
+  font-weight: 600;
+  font-size: 13px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 12px;
-  background: #dcfce7;
-  color: #166534;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 600;
+  transition: background 0.15s ease;
+  border: none;
+  cursor: pointer;
 }
-.zp-badge-active::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: #22c55e;
-  border-radius: 50%;
+
+.zp-btn-primary:hover {
+  background: #1d4ed8;
 }
 
 .zp-tabs-nav {
   display: flex;
-  border-bottom: 1px solid #e2e8f0;
-  margin-bottom: 24px;
   gap: 8px;
-  overflow-x: hidden;
-  scrollbar-width: none;
-}
-.zp-tabs-nav::-webkit-scrollbar {
-  display: none;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 20px;
 }
 
-.zp-tab-link {
+.zp-vps-tab-btn {
+  background: none;
+  border: none;
   padding: 10px 18px;
   font-size: 14px;
   font-weight: 600;
   color: #64748b;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
-.zp-tab-link:hover {
-  color: #0f172a;
-  text-decoration: none;
-}
-.zp-tab-link.active {
+
+.zp-vps-tab-btn.active {
   color: #2563eb;
-  border-bottom-color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+  margin-bottom: -2px;
 }
 
-/* 3 Gauge Donanım İbre Kartları */
-.zp-gauge-grid {
+.zp-tab-content {
+  display: none;
+}
+
+.zp-tab-content.active {
+  display: block;
+}
+
+.zp-specs-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
-.zp-gauge-card {
+.zp-spec-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 20px;
-  text-align: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.zp-gauge-title {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #64748b;
-  margin-bottom: 12px;
-}
-
-.zp-gauge-svg {
-  width: 140px;
-  height: 80px;
-  margin: 0 auto;
-  display: block;
-}
-
-.zp-gauge-val {
-  font-size: 22px;
-  font-weight: 800;
-  color: #0f172a;
-  margin-top: -15px;
-}
-
-.zp-gauge-sub {
+.zp-spec-label {
   font-size: 12px;
-  color: #94a3b8;
-  margin-top: 4px;
-}
-
-/* 8 Hızlı İşlem Buton Izgarası */
-.zp-actions-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-bottom: 24px;
-}
-
-.zp-btn-action {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 14px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #334155;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-.zp-btn-action:hover {
-  background: #f8fafc;
-  border-color: #cbd5e1;
-  color: #0f172a;
-  text-decoration: none;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.zp-btn-action svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 2;
-}
-
-.zp-btn-start:hover { color: #16a34a; border-color: #86efac; }
-.zp-btn-reboot:hover { color: #d97706; border-color: #fde68a; }
-.zp-btn-stop:hover { color: #dc2626; border-color: #fca5a5; }
-.zp-btn-sso {
-  background: #0f172a;
-  color: #ffffff !important;
-  border-color: #0f172a;
-}
-.zp-btn-sso:hover {
-  background: #1e293b;
-  border-color: #1e293b;
-  color: #ffffff !important;
-}
-
-/* Sekme İçerikleri */
-.zp-tab-pane {
-  display: none;
-}
-.zp-tab-pane.active {
-  display: block;
-}
-
-.zp-info-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.zp-info-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 14px;
-}
-.zp-info-table td:first-child {
-  font-weight: 600;
+  font-weight: 700;
   color: #64748b;
-  width: 35%;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
 
-@media (max-width: 900px) {
-  .zp-gauge-grid {
-    grid-template-columns: 1fr;
-  }
-  .zp-actions-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-
-/* Makineye Göre Donanım Özellikleri Kartları */
-.zp-spec-box {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 6px;
-  margin: 12px 0 8px 0;
-}
-.zp-spec-main {
-  font-size: 32px;
+.zp-spec-val {
+  font-size: 28px;
   font-weight: 800;
   color: #0f172a;
   line-height: 1;
 }
+
 .zp-spec-unit {
   font-size: 14px;
   font-weight: 600;
   color: #64748b;
+}
+
+.zp-spec-sub {
+  font-size: 12.5px;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.zp-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.zp-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  color: #1e293b;
+}
+
+.zp-actions-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.zp-btn-danger-outline {
+  background: #fee2e2;
+  color: #b91c1c !important;
+  border: 1px solid #fecaca;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.zp-btn-danger-outline:hover {
+  background: #fecaca;
+}
+
+.zp-btn-secondary-outline {
+  background: #f1f5f9;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.zp-btn-secondary-outline:hover {
+  background: #e2e8f0;
+}
+
+.zp-btn-neutral-outline {
+  background: #f8fafc;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.zp-btn-neutral-outline:hover {
+  background: #f1f5f9;
+}
+
+.zp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.zp-table tr {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.zp-table tr:last-child {
+  border-bottom: none;
+}
+
+.zp-table td {
+  padding: 10px 0;
+}
+
+.zp-table td:first-child {
+  color: #64748b;
+}
+
+.zp-access-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+
+.zp-access-box:last-child {
+  margin-bottom: 0;
+}
+
+.zp-access-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.zp-access-link-client {
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  color: #2563eb;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.zp-access-link-admin {
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  color: #d97706;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.zp-hidden {
+  display: none !important;
 }
