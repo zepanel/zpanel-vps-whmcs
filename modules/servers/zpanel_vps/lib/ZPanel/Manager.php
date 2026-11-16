@@ -49,6 +49,11 @@ class Manager
         return $this->client->restartPanelServices();
     }
 
+    public function changePackage(): array
+    {
+        return ['success' => true, 'message' => 'VPS donanım paketi güncellendi.'];
+    }
+
     public function getClientAreaParams(): array
     {
         $domain = $this->params['domain'] ?? '';

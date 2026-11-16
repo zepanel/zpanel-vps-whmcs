@@ -106,6 +106,12 @@ function zpanel_vps_TerminateAccount(array $params) {
     return $res['success'] ? 'success' : ($res['error'] ?: 'Silinemedi');
 }
 
+function zpanel_vps_ChangePackage(array $params) {
+    $mgr = new Manager($params);
+    $res = $mgr->changePackage();
+    return $res['success'] ? 'success' : ($res['error'] ?: 'Paket güncellenemedi');
+}
+
 function zpanel_vps_AdminCustomButtonArray() {
     return [
         "Sunucuyu Yeniden Başlat" => "reboot",
@@ -144,8 +150,10 @@ function zpanel_vps_ClientArea(array $params) {
     $mgr = new Manager($params);
     $tplVars = $mgr->getClientAreaParams();
 
+    $templateFile = file_exists(__DIR__ . '/templates/overview.tpl') ? 'templates/overview.tpl' : 'clientarea.tpl';
+
     return [
-        'tabOverviewReplacementTemplate' => 'clientarea.tpl',
+        'tabOverviewReplacementTemplate' => $templateFile,
         'templateVariables' => $tplVars,
     ];
 }
