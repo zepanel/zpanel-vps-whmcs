@@ -66,3 +66,4 @@ Accept: application/json
 ## 4. Donanım ve Kaynak Metrikleri
 
 Modül, WHMCS üzerinde tanımlanan ürün yapılandırma seçeneklerini (`cpu_cores`, `ram_mb`, `disk_gb`, `bandwidth_tb`, `os_name`) müşteri alanında doğrudan ve şeffaf olarak gösterir. Sanallaştırma katmanına ait olmayan yapay veya sahte göstergeler içermez.
+

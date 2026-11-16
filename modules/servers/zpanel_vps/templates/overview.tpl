@@ -166,3 +166,4 @@ function submitVpsAction(action, confirmMsg) {
   }
 }
 </script>
+
